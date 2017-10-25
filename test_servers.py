@@ -16,10 +16,6 @@ def test_buff_long_message():
     assert len(client("Caticus cuteicus throwup on")) == 27
 
 
-def test_non_ascii_message():
-    from client import client
-    assert client("éclairs") == "éclairs"
-
 
 def test_buffer_length_exact_multiple():
     from client import client
