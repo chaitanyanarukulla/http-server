@@ -6,8 +6,8 @@ import sys
 
 def client(message):
     """Open a client to send messages."""
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[1][:3])
-    client.connect(("127.0.0.1", 5000))
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5001)[1][:3])
+    client.connect(("127.0.0.1", 5001))
     message = message + "@@@"
     if sys.version_info.major == 3:
         client.sendall(message.encode("utf-8"))
