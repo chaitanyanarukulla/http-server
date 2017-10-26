@@ -1,22 +1,15 @@
 # -*- coding: utf-8 -*-
+"""Test server for 200 OK response"""
 import pytest
 
-def test_send_message():
-    from client import client
-    assert client("This is a test") == "This is a test"
+
+def test_response_200():
+    """Test server responds with http 200."""
+    from server import response_ok
+    assert b'HTTP/1.1 200 OK\r\n' == response_ok()
 
 
-def test_buff_short_message():
-    from client import client
-    assert len(client("anothe")) == 6
-
-
-def test_buff_long_message():
-    from client import client
-    assert len(client("Caticus cuteicus throwup on")) == 27
-
-
-
-def test_buffer_length_exact_multiple():
-    from client import client
-    assert len(client("This is 8 awesum")) % 8 == 0
+def test_response_500():
+    """Test server responds with http 500."""
+    from server import response_error
+    assert b'HTTP/1.1 500 OK\r\n' == response_error()
