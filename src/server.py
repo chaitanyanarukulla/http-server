@@ -9,9 +9,9 @@ def response_ok():
     return b'HTTP/1.1 200 OK\r\n'
 
 
-def response_error(erro):
+def response_error(err):
     """Return http 500 response error."""
-    return b'erro' + b' HTTP/1.1 500 OK\r\n'
+    return b'err' + b' HTTP/1.1 500 OK\r\n'
 
 
 def parse_request(request):
@@ -50,8 +50,7 @@ def server():  # pragma no cover
                 conn.sendall(response_ok())
             except ValueError as err:
                 print(err)
-                erro = err
-                conn.sendall(response_error(erro))
+                conn.sendall(response_error(err))
             conn.close()
     except KeyboardInterrupt:
         conn.close()
