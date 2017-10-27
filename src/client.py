@@ -6,10 +6,10 @@ import sys
 
 def client(message):
     """Open a client to send messages."""
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5010)[0][:3])
-    client.connect(("127.0.0.1", 5010))
-    msg_header = 'HTTP/1.1 200 OK\r\n'
-    message = msg_header + message + "@@@"
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5011)[1][:3])
+    client.connect(("127.0.0.1", 5011))
+    msg_header = 'GET HTTP/1.1 200'
+    message = msg_header + message + "@@"
     if sys.version_info.major == 3:
         client.sendall(message.encode("utf-8"))
     else:
@@ -22,14 +22,14 @@ def client(message):
         if msg.endswith(b'200 OK\r\n'):
             timer = False
         elif msg.endswith(b'500 OK\r\n'):
-                 timer = False
+            timer = False
     print(msg)
     client.close()
     if sys.version_info.major == 3:
-        return msg.decode("utf-8").replace("@@@", "")
+        return msg.decode("utf-8").replace("@@", "")
     else:
-        return msg.decode("utf-8").replace("@@@", "")
+        return msg.decode("utf-8").replace("@@", "")
 
 if __name__ == "__main__":
     msg = sys.argv[1]
-    print(client(msg))
+    # print(client(msg))
