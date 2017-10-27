@@ -10,7 +10,7 @@ def response_ok(URI):
     byte_URI = str(URI).encode('UTF8')
     print("BYTE URI")
     print(byte_URI)
-    return byte_URI + " " + b'HTTP/1.1 200 OK\r\n'
+    return byte_URI + b" " + b'HTTP/1.1 200 OK\r\n'
 
 
 def response_error(err):
@@ -23,13 +23,13 @@ def parse_request(request):
     print("THIS IS REQUEST")
     print(type(request))
     print(request)
-    if b"GET" not in request:
+    if "GET" not in request:
         raise ValueError("405 error: only GET method accepted")
-    elif b"HTTP/1.1" not in request:
+    elif "HTTP/1.1" not in request:
         raise ValueError("505 error: HTTP Request is not version 1.1.")
-    elif b"Host: 127.0.0.1:5000" not in request:
+    elif "Host: 127.0.0.1:5000" not in request:
         raise ValueError("400 error: Bad Request")
-    elif b"GET /http-server/src/server.py HTTP/1.1 200\r\n" not in request:
+    elif "GET /http-server/src/server.py HTTP/1.1 200\r\n" not in request:
         raise ValueError("400: Malformed-Request")
     else:
         return str(request).split(" ")[1]
