@@ -2,7 +2,6 @@
 """Open a server and listen for messages from the client."""
 import socket
 import sys
-from requests import HTTPError
 
 
 def response_ok(URI):
@@ -20,16 +19,13 @@ def response_error(err):
 
 def parse_request(request):
     """Parse request to make sure it is a GET request."""
-    print("THIS IS REQUEST")
-    print(type(request))
-    print(request)
-    if "GET" not in request:
+    if "GET" not in str(request):
         raise ValueError("405 error: only GET method accepted")
-    elif "HTTP/1.1" not in request:
+    elif "HTTP/1.1" not in str(request):
         raise ValueError("505 error: HTTP Request is not version 1.1.")
-    elif "Host: 127.0.0.1:5000" not in request:
+    elif "Host: 127.0.0.1:5000" not in str(request):
         raise ValueError("400 error: Bad Request")
-    elif "GET /http-server/src/server.py HTTP/1.1 200\r\n" not in request:
+    elif "GET /http-server/src/server.py HTTP/1.1 200\r\n" not in str(request):
         raise ValueError("400: Malformed-Request")
     else:
         return str(request).split(" ")[1]
@@ -49,7 +45,7 @@ def server():  # pragma no cover
             while timer:
                 part = conn.recv(8)
                 msg += part
-                if b"@@" in msg:
+                if b"@@@" in msg:
                     timer = False
             try:
                 URI = parse_request(msg)
@@ -64,5 +60,6 @@ def server():  # pragma no cover
         print("\nClosing the server!")
         sys.exit(1)
 
-if __name__ == "__main__":
+
+if __name__ == "__main__":  # pragma no cover
     server()
