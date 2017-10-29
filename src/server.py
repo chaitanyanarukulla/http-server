@@ -6,10 +6,22 @@ import sys
 from mimetypes import MimeTypes
 
 
-def response_ok(URI):
+def response_ok(body, mimetype):
+    print("IN RESPONSSE FUNCTION")
+    print(mimetype)
     """Return a successfull http 200 response."""
-    byte_URI = str(URI).encode('UTF8')
-    return byte_URI + b" " + b'HTTP/1.1 200 OK\r\n'
+    # byte_URI = str(URI).encode('UTF8')
+    message = "HTTP/1.1 200 OK\r\n" \
+              "Content-Type: {}\r" \
+              "\r" \
+              "{}" \
+              "\r\n*@*@*@".format(mimetype[0], body)
+    print("THE MESSAGE!!!!", message)
+    print(type(message))
+    message = message.encode('UTF8')
+    print("\n\n")
+    print("THE MESSAGE UNICODE", message)
+    return message
 
 
 def response_error(err):
@@ -18,13 +30,27 @@ def response_error(err):
 
 
 def resolve_uri(URI):
-    uri_path = os.path.abspath(URI)
-    print(uri_path, "This is uri_path")
-    print(type(os.path.isdir(uri_path)))
-    if os.path.isdir(str(uri_path)):
-        return html_listing(os.listdir(uri_path), uri_path, URI)
+    the_path = os.path.abspath(URI)
+    if os.path.isdir(the_path):
+        print("THE DIR IF OCCURED")
+        return html_listing(os.listdir(the_path), the_path, URI)
+    elif os.path.isfile(the_path):
+        print("THE FILE  IF OCCURED")
+        return get_file_contents(the_path)
+
     else:
         pass
+
+
+def get_file_contents(file_path):
+    with open(file_path, 'r') as f:
+        content = f.read()
+        print("CONTENT", content)
+        print(type(content))
+    mime = MimeTypes()
+    mime_type = mime.guess_type(file_path)
+    print("MIME TYPE", mime_type)
+    return response_ok(content, mime_type)
 
 
 def html_listing(dir_list, uri_path, URI):
@@ -35,17 +61,18 @@ def html_listing(dir_list, uri_path, URI):
       <li>{}</li>
       <li>{}</li>
       <li>{}</li>
+      <li>{}</li>
     </ul>
     """.format(URI, *dir_list)
     mime = MimeTypes()
-    mime_type = mime.guess_type(uri_path)
-    print('This is what we need')
-    print(body)
-    print(mime_type)
-    return body, mime_type
+    mime_type = mime.guess_type(URI)
+    return response_ok(body, mime_type)
 
 
 def parse_request(request):
+    # uri = str(request).split('\n')[-1].replace('*@*@*@', '')
+    uri = str(request).split("\\r\\n")[-1].replace("*@*@*@'", '')
+    print("\n\n\nURIURI", uri)
     """Parse request to make sure it is a GET request."""
     if "GET" not in str(request):
         raise ValueError("405 error: only GET method accepted")
@@ -53,17 +80,20 @@ def parse_request(request):
         raise ValueError("505 error: HTTP Request is not version 1.1.")
     elif "Host: 127.0.0.1:5000" not in str(request):
         raise ValueError("400 error: Bad Request")
-    elif "GET test_dir HTTP/1.1 200" not in str(request):
+    elif "GET {} HTTP/1.1 200".format(str(uri)) not in str(request):
+        print("UNCLE BOB")
+        print("GET {} HTTP/1.1 200".format(str(uri)))
+        print(str(request))
         raise ValueError("400: Malformed-Request")
     else:
-        return resolve_uri(str(request).split(" ")[1])
+        return resolve_uri(uri)
 
 
 def server():  # pragma no cover
     """Open a server to echo back a message."""
     server = socket.socket(socket.AF_INET,
                            socket.SOCK_STREAM, socket.IPPROTO_TCP)
-    server.bind(('127.0.0.1', 5000))
+    server.bind(('127.0.0.1', 5001))
     server.listen(1)
     try:
         while True:
@@ -73,11 +103,11 @@ def server():  # pragma no cover
             while timer:
                 part = conn.recv(8)
                 msg += part
-                if b"@@" in msg:
+                if b"*@*@*@" in msg:
                     timer = False
             try:
-                URI = parse_request(msg)
-                conn.sendall(response_ok(URI))
+                heeader_and_body = parse_request(msg)
+                conn.sendall(heeader_and_body)
             except ValueError as err:
                 byte_err = str(err).encode('UTF8')
                 conn.sendall(response_error(byte_err))
