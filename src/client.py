@@ -4,7 +4,7 @@ import socket
 import sys
 
 
-def client(message):
+def client(message):  # pragma no cover
     """Open a client to send messages."""
     client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5010)[0][:3])
     client.connect(("127.0.0.1", 5010))
@@ -22,7 +22,7 @@ def client(message):
         if msg.endswith(b'200 OK\r\n'):
             timer = False
         elif msg.endswith(b'500 OK\r\n'):
-                 timer = False
+                timer = False
     print(msg)
     client.close()
     if sys.version_info.major == 3:

@@ -14,7 +14,7 @@ def response_error():
     return b'HTTP/1.1 500 OK\r\n'
 
 
-def server(): # pragma no cover
+def server():  # pragma no cover
     """Open a server to echo back a message."""
     server = socket.socket(socket.AF_INET,
                            socket.SOCK_STREAM, socket.IPPROTO_TCP)
