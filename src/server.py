@@ -47,10 +47,7 @@ def get_file_contents(file_path):
         content = f.read()
         print("CONTENT", content)
         print(type(content))
-    mime = MimeTypes()
-    mime_type = mime.guess_type(file_path)
-    print("MIME TYPE", mime_type)
-    return response_ok(content, mime_type)
+    return response_ok(content, get_mime_types(file_path))
 
 
 def html_listing(dir_list, uri_path, URI):
@@ -64,9 +61,13 @@ def html_listing(dir_list, uri_path, URI):
       <li>{}</li>
     </ul>
     """.format(URI, *dir_list)
+    return response_ok(body, ('test/html', None))
+
+
+def get_mime_types(uri):
     mime = MimeTypes()
-    mime_type = mime.guess_type(URI)
-    return response_ok(body, mime_type)
+    mime_type = mime.guess_type(uri)
+    return mime_type
 
 
 def parse_request(request):
