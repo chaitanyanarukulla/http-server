@@ -25,7 +25,7 @@ def parse_request(request):
         raise ValueError("505 error: HTTP Request is not version 1.1.")
     elif "Host: 127.0.0.1:5000" not in str(request):
         raise ValueError("400 error: Bad Request")
-    elif "GET /http-server/src/server.py HTTP/1.1 200\r\n" not in str(request):
+    elif "GET /http-server/src/server.py HTTP/1.1 200" not in str(request):
         raise ValueError("400: Malformed-Request")
     else:
         return str(request).split(" ")[1]
@@ -45,7 +45,7 @@ def server():  # pragma no cover
             while timer:
                 part = conn.recv(8)
                 msg += part
-                if b"@@@" in msg:
+                if b"@@" in msg:
                     timer = False
             try:
                 URI = parse_request(msg)
