@@ -4,7 +4,7 @@ import socket
 import sys
 
 
-def server():
+def server():  # pragma: no cover
     """Open a server to echo back a message."""
     server = socket.socket(socket.AF_INET,
                            socket.SOCK_STREAM, socket.IPPROTO_TCP)
