@@ -4,12 +4,12 @@ import socket
 import sys
 
 
-def response_ok(URI):
+def response_ok(uri):
     """Return a successfull http 200 response."""
-    byte_URI = str(URI).encode('UTF8')
-    print("BYTE URI")
-    print(byte_URI)
-    return byte_URI + b" " + b'HTTP/1.1 200 OK\r\n'
+    byte_uri = str(uri).encode('UTF8')
+    print("BYTE uri")
+    print(byte_uri)
+    return byte_uri + b" " + b'HTTP/1.1 200 OK\r\n'
 
 
 def response_error(err):
@@ -48,8 +48,8 @@ def server():  # pragma no cover
                 if b"@@" in msg:
                     timer = False
             try:
-                URI = parse_request(msg)
-                conn.sendall(response_ok(URI))
+                uri = parse_request(msg)
+                conn.sendall(response_ok(uri))
             except ValueError as err:
                 byte_err = str(err).encode('UTF8')
                 conn.sendall(response_error(byte_err))
