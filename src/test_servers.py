@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import pytest
+
 
 def test_send_message():
     from client import client
@@ -14,7 +16,6 @@ def test_buff_short_message():
 def test_buff_long_message():
     from client import client
     assert len(client("Caticus cuteicus throwup on")) == 27
-
 
 
 def test_buffer_length_exact_multiple():
