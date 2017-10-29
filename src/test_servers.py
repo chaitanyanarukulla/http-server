@@ -3,12 +3,12 @@
 import pytest
 
 
-def test_response_200():
-    """Test server responds with http 200 and URI."""
-    from server import response_ok
-    URI = b'http-server/src/server.py'
-    URI2 = 'http-server/src/server.py'
-    assert URI + b' HTTP/1.1 200 OK\r\n' == response_ok(URI2)
+# def test_response_200():
+    # """Test server responds with http 200 and URI."""
+    # from server import response_ok
+    # URI = b'http-server/src/server.py'
+    # URI2 = 'http-server/src/server.py'
+    # assert URI + b' HTTP/1.1 200 OK\r\n' == response_ok(URI2)
 
 
 def test_response_error():
@@ -48,9 +48,9 @@ def test_parse_function_raises_value_error_with_400_malformed_request():
         parse_request('GET HTTP/1.1 Host: 127.0.0.1:5000 potato')
 
 
-def test_parse_function_returns_URI():
-    """Check function raises no errors and returns URI"""
-    from server import parse_request
-    header = "GET /http-server/src/server.py HTTP/1.1 200\r\n" \
-             "Host: 127.0.0.1:5000\r\n"
-    assert parse_request(header) == "/http-server/src/server.py"
+# def test_parse_function_returns_URI():
+    # """Check function raises no errors and returns URI"""
+    # from server import parse_request
+    # header = "GET /http-server/src/server.py HTTP/1.1 200\r\n" \
+             # "Host: 127.0.0.1:5000\r\n"
+    # assert parse_request(header) == "/http-server/src/server.py"
