@@ -7,8 +7,8 @@ import sys
 def client(message):
     """Open a client to send messages."""
     print("MESSAGE JUST INSIDE CLIENT", message)
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5001)[0][:3])
-    client.connect(("127.0.0.1", 5001))
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[1][:3])
+    client.connect(("127.0.0.1", 5000))
     msg_header = "GET {} HTTP/1.1 200\r\nHost: 127.0.0.1:5000\r\n".format(message)
     message = msg_header + message + "*@*@*@"
     if sys.version_info.major == 3:

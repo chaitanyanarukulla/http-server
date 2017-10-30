@@ -7,14 +7,14 @@ setup(
     author='Chai Nareulla & Darren Haynes',
     author_email='dummmy-address@zoho.com',
     py_modules=[],
-    install_requires=[],
+    install_requires=['gevent'],
     extras_require={
         'testing': ['pytest', 'pytest-cov', 'pytest-watch', 'tox'],
         'development': ['ipython']
     },
     entry_points={
         # 'console_scripts': {
-            # 'http-server=http-server:main'
+        # 'http-server=http-server:main'
         # }
     }
 )
