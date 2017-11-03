@@ -28,5 +28,5 @@ def server():  # pragma: no cover
         print("\nClosing the server!")
         sys.exit()
 
-if __name__ is "__main__":
+if __name__ == "__main__":
     server()

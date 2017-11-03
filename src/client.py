@@ -6,7 +6,7 @@ import sys
 
 def client(message):
     """Open a client to send messages."""
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[1][:3])
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[0][:3])
     client.connect(("127.0.0.1", 5000))
     message = message + "@@@"
     if sys.version_info.major == 3:
@@ -26,6 +26,6 @@ def client(message):
     else:
         return msg.decode("utf-8").replace("@@@", "")
 
-if __name__ is "__main__":
+if __name__ == "__main__":
     msg = sys.argv[1]
     print(client(msg))
