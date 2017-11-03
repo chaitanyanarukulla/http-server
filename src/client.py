@@ -6,7 +6,7 @@ import sys
 
 def client(message):  # pragma no cover
     """Open a client to send messages."""
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5010)[0][:3])
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5010)[1][:3])
     client.connect(("127.0.0.1", 5010))
     msg_header = 'HTTP/1.1 200 OK\r\n'
     message = msg_header + message + "@@@"
