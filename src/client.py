@@ -6,7 +6,7 @@ import sys
 
 def client(message):
     """Open a client to send messages."""
-    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[0][:3])
+    client = socket.socket(*socket.getaddrinfo("127.0.0.1", 5000)[1][:3])
     client.connect(("127.0.0.1", 5000))
     message = message + "@@@"
     if sys.version_info.major == 3:
