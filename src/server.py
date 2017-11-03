@@ -7,14 +7,12 @@ import sys
 def response_ok(uri):
     """Return a successfull http 200 response."""
     byte_uri = str(uri).encode('UTF8')
-    print("BYTE uri")
-    print(byte_uri)
-    return byte_uri + b" " + b'HTTP/1.1 200 OK\r\n'
+    return byte_uri + b" " + b'HTTP/1.1 200 OK\r\n\r\n'
 
 
 def response_error(err):
     """Return http 500 response error."""
-    return err + b' HTTP/1.1 500 OK\r\n'
+    return err + b' HTTP/1.1 500 OK\r\n\r\n'
 
 
 def parse_request(request):
@@ -45,7 +43,7 @@ def server():  # pragma no cover
             while timer:
                 part = conn.recv(8)
                 msg += part
-                if b"@@" in msg:
+                if b"\r\n\r\n" in msg:
                     timer = False
             try:
                 uri = parse_request(msg)
